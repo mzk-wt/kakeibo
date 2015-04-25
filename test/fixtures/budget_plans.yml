@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2015-02-01
+  usable_total: 1
+  stock_total: 1
+  budget_total: 1
+  direct_debit: 1
+  note: MyText
+
+two:
+  date: 2015-02-01
+  usable_total: 1
+  stock_total: 1
+  budget_total: 1
+  direct_debit: 1
+  note: MyText

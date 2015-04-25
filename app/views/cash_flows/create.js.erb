@@ -1,0 +1,38 @@
+// ajax処理
+// createアクション実行後の描画処理でrailsから自動で呼ばれる
+if (typeof addList == "function") {
+  // 一覧を追加
+  addList({
+    id               : "<%= @cashFlow.id %>",
+    account_name     : "<%= @cashFlow.account_id.blank? ? "" : @cashFlow.account.name %>",
+    flow_type        : "<%= @cashFlow.flow_type %>",
+    amount           : "<%= @cashFlow.amount.to_c %>",
+    move_to_name     : "<%= @cashFlow.move_to.blank? ? "" : @cashFlow.move_to_account.name %>",
+    expense_item_name: "<%= @cashFlow.expense_item_id.blank? ? "" : @cashFlow.expense_item.name %>",
+    memo             : "<%= @cashFlow.memo %>",
+    credit_card      : "<%= @cashFlow.credit_card ? "○" : "" %>"
+  });
+}
+
+// フォームの入力値をクリア
+$("#cash_flow_amount").val("");                     // 金額
+$("#cash_flow_memo").val("");                       // 内容
+$("#cash_flow_credit_card").attr("checked", false); // カード払い
+
+// 金額入力補助の値をクリアして非表示
+{
+  var i = 0;
+  while (true) {
+    var helper = $("#input-amount-helper-" + i);
+    if (helper.size() == 0) {
+      break;
+    }
+    helper.val("");
+    i++;
+  }
+
+  if ($(".input-amount-helper").is(":visible")) {
+    changeDispAmountHelper();
+  }
+}
+

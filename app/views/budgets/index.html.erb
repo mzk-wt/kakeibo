@@ -1,0 +1,64 @@
+<div id="wrapper">
+
+  <!--=========================================================================
+  メニュー
+  ==========================================================================-->
+  <%= render 'shared/topMenu' %>
+
+  <div class="empty-line"></div>
+
+  <!--=========================================================================
+  口座情報
+  ==========================================================================-->
+  <div class="account-box">
+    <ul class="account-info">
+      <% @account.each do |account| %>
+        <li>
+          <div class="account-name"><%= account.name %></div>
+          <div class="account-amount <%= (account.current_amount < 0) ? "amount-minus" : "" %>">
+            <%= account.current_amount.to_c %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="empty-line"></div>
+
+  <!--=========================================================================
+  年月
+  ==========================================================================-->
+  <%= render 'shared/dateNavi', action: 'index', type: 'YM' %>
+  
+  <!--=========================================================================
+  予算サマリー
+  ==========================================================================-->
+  <%= form_tag({:action => "lumpUpdate"}, {:method => "GET", :remote => true}) do %>
+  <div class="budget-summary">
+    <ul class="budget-expense-info">
+      <% @expenseItem.each do |item| %>
+      <% budgetItem = @budget.find_by_expense_item_id(item.id) %>
+      <li>
+        <div class="budget-expense-name"><%= item.name %></div>
+        <div class="budget-expense-amount">
+          <%= text_field_tag("amount_" + item.id.to_s, (budgetItem.blank? ? '' : budgetItem.amount)) %>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="budget-submit"><%= submit_tag("保存") %></div>
+
+  <%= hidden_field_tag("date", @cal.strftime("%Y-%m-%d")) %>
+  <%= hidden_field_tag("year", @cal.year) %>
+  <%= hidden_field_tag("month", @cal.month) %>
+  <%= hidden_field_tag("day", 1) %>
+  
+  <% end %>
+
+  <!--=========================================================================
+  予算詳細
+  ==========================================================================-->
+  <!-- TODO -->
+</div>

@@ -1,0 +1,148 @@
+<div id="wrapper">
+
+  <!--=========================================================================
+  メニュー
+  ==========================================================================-->
+  <%= render 'shared/topMenu' %>
+
+  <div class="empty-line"></div>
+
+  <!--=========================================================================
+  口座情報
+  ==========================================================================-->
+  <div class="account-box">
+    <ul class="account-info">
+      <% @account.each do |account| %>
+        <li>
+          <div class="account-name"><%= account.name %></div>
+          <div class="account-amount <%= (account.current_amount < 0) ? "amount-minus" : "" %>">
+            <%= account.current_amount.to_c %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="empty-line"></div>
+
+  <!--=========================================================================
+  年月
+  ==========================================================================-->
+  <%= render 'shared/dateNavi', action: 'index', type: 'YM' %>
+  
+  <!--=========================================================================
+  予算
+  ==========================================================================-->
+  <table class="budget">
+    <tr>
+      <th>&nbsp;</th>
+      <th class="budget-title">予算額</th>
+      <th>&nbsp;</th>
+      <th class="budget-title">支出合計</th>
+      <th>&nbsp;</th>
+      <th class="budget-title">残高</th>
+      <th>&nbsp;</th>
+    </tr>
+    <tr>
+      <th class="budget-title2">全体</th>
+      <td class="budget-value"><%= @sumBudgetAll.to_c %></td>
+      <td>&nbsp;ー&nbsp;</td>
+      <td class="budget-value"><%= @sumExpenseAll.to_c %></td>
+      <td>&nbsp;＝&nbsp;</td>
+      <td class="budget-value"><%= @balanceAll.to_c %></td>
+      <td style="padding-left:20px;">
+        <table>
+          <tr>
+            <td class="budget-days-title">残りの日数</td>
+            <td class="budget-days-value"><%= @leftDays %></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <th class="budget-title2">生活費</th>
+      <td class="budget-value"><%= @sumBudgetOfLiving.to_c %></td>
+      <td>&nbsp;ー&nbsp;</td>
+      <td class="budget-value"><%= @sumExpenseOfLiving.to_c %></td>
+      <td>&nbsp;＝&nbsp;</td>
+      <td class="budget-value"><%= @balanceOfLiving.to_c %></td>
+      <td style="padding-left:20px;">
+        <%= link_to "費目毎の残高を確認する",
+          { :action => "budgetBalance", :year => @cal.year, :month => @cal.month },
+          { :class => "link-string", :target => "_blank" } %>
+      </td>
+    </tr>
+  </table>
+
+  <div class="empty-line"></div>
+  
+  <!--=========================================================================
+  カレンダー
+  ==========================================================================-->
+  <!-- ヘッダ -->
+  <% 
+    weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    weekday.each { |weekday| 
+  %>
+  <div class="cal-box cal-header">
+    <div class="cal-date date-<%= weekday %>"><%= weekday %></div>
+  </div>
+  <% } %>
+  <div style="clear:both;"></div>
+  
+  <!-- 日付 -->
+  <%
+  date = @cal.beginning_of_month
+  6.times { |w|
+    weekday.each_with_index { |weekday, d|
+      if (date.month > @cal.month && date.wday == 0)
+        # 月末以降で新しい週ならば、ここで終了
+        break
+
+      elsif (w == 0 && @cal.beginning_of_month.wday > d) || (date.month > @cal.month)
+        if (date.month > @cal.month)
+          date += 1
+        end
+  %>
+    <!-- 月初まで、もしくは月末以降 -->
+    <div class="cal-box cal-body">&nbsp;</div>
+
+  <%  else %>
+    <div class="cal-box cal-body <%= (@thisMonth && Date.today.day == date.day) ? "cal-today" : "" %>">
+      <!-- 日付 -->
+      <div class="cal-date date-<%= weekday %>"><%= date.day %></div>
+
+      <!-- 編集アイコン -->
+      <div class="edit-icon">
+        <%= link_to image_tag("icon_edit.png"), 
+            :controller=>"lists", :action=>"dailyList", :year=>@cal.year, :month=>@cal.month, :day=>date.day %>
+      </div>
+
+      <!-- 収入/支出 -->
+      <div class="date-info">
+        <div class="date-info-income">
+          <% if @incomeAll.count(:date, :conditions => ["date=?", date]) > 0 %>
+          ＋<%= @incomeAll.sum(:amount, :conditions => ["date=?", date]).to_c %>
+          <% else %>
+          &nbsp;
+          <% end %>
+        </div>
+        <div class="date-info-expense">
+          <% if @expenseAll.count(:date, :conditions => ["date=?", date]) > 0 %>
+          ー<%= @expenseAll.sum(:amount, :conditions => ["date=?", date]).to_c %>
+          <% else %>
+          &nbsp;
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <%
+        date += 1
+      end
+    }
+  }
+  %>
+
+  <div class="empty-line"></div>
+
+</div>

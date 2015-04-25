@@ -1,0 +1,177 @@
+<%= form_for(@cashFlow, :url => {:controller => 'cash_flows', :action => 'create'}, :remote => true) do |f| %>
+  <table class="input-cashflow-table">
+    <tr class="input-cashflow-title">
+      <th><%= f.label :account_id, "口座" %></th>
+      <th><%= f.label :flow_type, "種別" %></th>
+      <th><%= f.label :move_to, "移動先" %></th>
+      <th><%= f.label :expense_item_id, "費目" %></th>
+      <th colspan="2"><%= f.label :amount, "金額" %></th>
+      <th><%= f.label :memo, "内容" %></th>
+      <th><%= f.label :credit_card, "カード払い" %></th>
+      <th>&nbsp;</th>
+    </tr>
+    <tr class="input-cashflow-value">
+      <td><%= f.select :account_id, @accounts %></td>
+      <td><%= f.select :flow_type, @flowTypes %></td>
+      <td><%= f.select :move_to, @accounts %></td>
+      <td><%= f.select :expense_item_id, @expItemsO %></td>
+      <td><%= f.number_field :amount, :class => "currency" %></td>
+      <td><%= link_to image_tag("icon_dentaku_b.png"), {}, :class => "dentaku", :onclick => "return changeDispAmountHelper();" %></td>
+      <td><%= f.text_field :memo %></td>
+      <td align="center"><%= f.check_box :credit_card %></td>
+      <td style="padding:0px 15px 0px 15px;"><%= f.submit "追加" %></td>
+    </tr>
+  </table>
+
+  <%= f.hidden_field :date, :value => @cal.strftime("%Y-%m-%d") %>
+<% end %>
+
+<!-- 金額入力補助 -->
+<div class="input-amount-helper">
+  <% 5.times { |i| %>
+    <% if (i > 0) %>＋<% end %>
+    <%= number_field_tag("input-amount-helper-" + i.to_s, "", :class => "currency") %>
+  <% } %>
+</div>
+
+<script type="text/javascript">
+/****************************
+  初期化
+*****************************/
+// 初期表示
+setFormDisp();
+
+/****************************
+  アクション設定
+*****************************/
+// 種別変更時
+$("#cash_flow_flow_type").change(function() { setFormDisp(); });
+
+// 金額入力補助
+{
+  var i = 0;
+  while (true) {
+    var helper = $("#input-amount-helper-" + i);
+    if (helper.size() == 0) {
+      break;
+    }
+    helper.blur(function() { setAmountValue(); });
+    i++;
+  }
+}
+
+/****************************
+  関数定義
+*****************************/
+/**
+ * 種別毎の表示切替
+ */
+function setFormDisp() {
+  // 費目の選択肢をクリア
+  $("#cash_flow_expense_item_id option").remove();
+
+  var type = $("#cash_flow_flow_type option:selected").val();
+
+  // 収入
+  if (type == "i") {
+    // 移動先を非表示
+    $("#cash_flow_move_to, label[for=cash_flow_move_to]").closest("th, td").hide();
+
+    // 費目を表示＆選択肢を設定
+    $("#cash_flow_expense_item_id, label[for=cash_flow_expense_item_id]").closest("th, td").show();
+    <% @expItemsI.each { |name, id| %>
+      $("#cash_flow_expense_item_id").append("<option value='<%= id %>'><%= name %></option>");
+    <% } %>
+
+    // カード払いを非表示
+    $("#cash_flow_credit_card, label[for=cash_flow_credit_card]").closest("th, td").hide();
+
+  // 支出
+  } else if (type == "o") {
+    // 移動先を非表示
+    $("#cash_flow_move_to, label[for=cash_flow_move_to]").closest("th, td").hide();
+
+    // 費目を表示＆選択肢を設定
+    $("#cash_flow_expense_item_id, label[for=cash_flow_expense_item_id]").closest("th, td").show();
+    <% @expItemsO.each { |name, id| %>
+      $("#cash_flow_expense_item_id").append("<option value='<%= id %>'><%= name %></option>");
+    <% } %>
+
+    // カード払いを表示
+    $("#cash_flow_credit_card, label[for=cash_flow_credit_card]").closest("th, td").show();
+
+  // 移動
+  } else if (type == "m") {
+    // 移動先を表示
+    $("#cash_flow_move_to, label[for=cash_flow_move_to]").closest("th, td").show();
+
+    // 費目を非表示
+    $("#cash_flow_expense_item_id, label[for=cash_flow_expense_item_id]").closest("th, td").hide();
+
+    // カード払いを非表示
+    $("#cash_flow_credit_card, label[for=cash_flow_credit_card]").closest("th, td").hide();
+  }
+};
+
+/**
+ * 金額の入力補助欄の表示/非表示
+ */
+function changeDispAmountHelper() {
+  var amount = $("#cash_flow_amount");
+  var helper = $(".input-amount-helper");
+
+  // 位置調整
+  helper.css("top", (amount.offset().top - 10));
+  helper.css("left", (amount.offset().left - helper.width()/2));
+
+  // 表示/非表示切替
+  helper.toggle();
+  var visible = helper.is(":visible");
+
+  // 金額入力欄入力制御  
+  amount.attr("readonly", visible);
+
+  if (visible) {
+    // 電卓アイコン切替
+    $(".dentaku img").attr("src", '<%= image_path("icon_dentaku_g.png") %>');
+
+    // 入力補助欄が表示されたタイミングで金額の値をクリア 
+    amount.val("");
+
+    // 入力補助欄の値を合計して金額の値を設定
+    setAmountValue();
+
+    // フォーカスセット
+    $("#input-amount-helper-0").focus();
+
+  } else {
+    // 電卓アイコン切替
+    $(".dentaku img").attr("src", '<%= image_path("icon_dentaku_b.png") %>');
+  }
+
+  return false;
+}
+
+/**
+ * 入力補助欄の値を合計して金額の値を設定
+ */
+function setAmountValue() {
+  var i = 0, sum = 0;
+  while (true) {
+    var helper = $("#input-amount-helper-" + i);
+    if (helper.size() == 0) {
+      break;
+    }
+    
+    var v = helper.val();
+    if (v.match(/[-]?[0-9]+/)) {
+      sum += eval(v);
+    }
+
+    i++;
+  }
+
+  $("#cash_flow_amount").val(sum > 0 ? sum : "");
+}
+
+</script>

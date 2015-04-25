@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2015-02-01
+  budget_type: 1
+  item_name: MyString
+  item_amount: 1
+  item_note: MyString
+
+two:
+  date: 2015-02-01
+  budget_type: 1
+  item_name: MyString
+  item_amount: 1
+  item_note: MyString

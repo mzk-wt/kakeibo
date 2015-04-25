@@ -1,0 +1,52 @@
+// Place all the styles related to the lists controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+/*****************************/
+/* 一覧                      */
+/*****************************/
+.cashflow-title {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 20px;
+  padding: 1px 5px 1px 5px;
+  width: 60px;
+  text-align: center;
+}
+
+.cashflow-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #ccc;
+
+  th {
+    text-align: center;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #ccc;
+    background: #ccc;
+    padding: 4px;
+    color: #444;
+  }
+
+  td {
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    padding: 4px;
+  }
+
+  .delbutton {
+    border-radius: 5px;
+    border: 1px solid #cd3232;
+    background: #cd3232;
+    padding: 2px 5px 2px 5px;
+    line-height: 18px;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+}
+
+

@@ -1,0 +1,14 @@
+<!--=========================================================================
+メニュー
+==========================================================================-->
+<ul class="menu-link">
+  <li><div class="linkbutton">
+    <%= link_to "TOP", :controller=>"top", :action=>"index", :year=>@cal.year, :month=>@cal.month, :day=>1 %>
+  </div></li>
+  <li><div class="linkbutton">
+    <%= link_to "月間リスト", :controller=>"lists", :action=>"monthlyList", :year=>@cal.year, :month=>@cal.month, :day=>1 %>
+  </div></li>
+  <li><div class="linkbutton">
+    <%= link_to "予算を立てる", :controller=>"budgets", :action=>"index", :year=>@cal.year, :month=>@cal.month, :day=>1 %>
+  </div></li>
+</ul>

@@ -1,0 +1,45 @@
+// Place all the styles related to the Budgets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.budget-summary {
+
+  ul.budget-expense-info {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+
+    li {
+      clear: both;
+    }
+
+    div {
+      float: left;
+      line-height: 20px;
+    }
+
+    .budget-expense-name {
+      width: 100px;
+    }
+
+    .budget-expense-amount {
+      width: 150px;
+
+      input[type="text"] {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.budget-submit {
+  input[type="submit"] {
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid #3232cd;
+    background: #3232cd;
+    padding: 3px 10px 3px 10px;
+    line-height: 20px;
+    height: 35px;
+    color: #fff;
+  }
+}

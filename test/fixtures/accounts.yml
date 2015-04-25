@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  init_amount: 1
+  init_date: 2015-02-01
+  current_amount: 1
+
+two:
+  name: MyString
+  init_amount: 1
+  init_date: 2015-02-01
+  current_amount: 1

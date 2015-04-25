@@ -1,0 +1,87 @@
+body {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lucida Grande',
+               'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',
+               Meiryo, メイリオ, sans-serif;
+}
+
+/* コンテンツをセンタリングするためのラッパー */
+#wrapper {
+  text-align: left;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 960px;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+}
+
+/* 行間 */
+.empty-line {
+  height: 10px;
+  clear: both;
+}
+
+/* リンク文字列 */
+a.link-string {
+  color: #66e;
+}
+
+/*****************************/
+/* メニュー                  */
+/*****************************/
+ul.menu-link {
+  padding: 0px;
+  list-style-type: none;
+
+  li {
+    float: left;
+    margin-right: 10px;
+  }
+
+  .linkbutton {
+    border-radius: 5px;
+    border: 1px solid #32aa32;
+    background: #32aa32;
+    padding: 2px 5px 2px 5px;
+    line-height: 25px;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+}
+/*****************************/
+/* 日付表示                  */
+/*****************************/
+.date-navi {
+
+  div {
+    float: left;
+    margin-right: 15px;
+    line-height: 44px;
+  }
+
+  .date-char {
+    font-size: 20px;
+    line-height: 40px;
+
+    select {
+      font-size: 25px;
+    }
+  }
+}
+
+/*****************************/
+/* データタイプ              */
+/*****************************/
+/* 通貨 */
+.currency {
+  text-align: right;
+}

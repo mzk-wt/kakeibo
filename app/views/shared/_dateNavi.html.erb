@@ -1,0 +1,78 @@
+<!--=========================================================================
+年月日表示＆移動
+==========================================================================-->
+<div class="date-navi">
+  <!-- 前月/前日へ -->
+  <div class="prev">
+    <%= link_to image_tag("icon_arrow-gray-left.png"),
+                :action    => action,
+                :year      => @cal.year,
+                :month     => @cal.month,
+                :day       => @cal.day,
+                :calc_date => (type == "YM") ? "pm" : "pd" %>
+  </div>
+
+  <!-- 表示されている月を表示 -->
+  <div class="date-char">
+    <%== sprintf(
+           date_select(:datenavi, :datesel,
+                       { :use_month_numbers => true,
+                         :start_year        => 2015,
+                         :end_year          => 2030,
+                         :default           => @cal,
+                         :date_separator    => "%s",
+                         :discard_day       => (type == "YM") },
+                       { :onchange          => "changeDate()" }),
+           "年　", "月　")
+    %><%= (type == "YM") ? "月" : "日" %>
+  </div>
+
+  <!-- 翌月/翌日へ -->
+  <div class="next">
+    <%= link_to image_tag("icon_arrow-gray-right.png"),
+                :action    => action,
+                :year      => @cal.year,
+                :month     => @cal.month,
+                :day       => @cal.day,
+                :calc_date => (type == "YM") ? "nm" : "nd" %>
+  </div>
+
+  <!-- 当日へ -->
+  <div class="today">
+    <%= link_to image_tag("icon_today.png"), {:action => action}, {:title => "today"} %>
+  </div>
+</div>
+
+<div style="clear:both;"></div>
+
+<script type="text/javascript">
+  function changeDate() {
+    // アクション実行
+    location.href = "?day=" + $("#datenavi_datesel_3i").val()
+                  + "&month=" + $("#datenavi_datesel_2i").val()
+                  + "&year=" + $("#datenavi_datesel_1i").val();
+  }
+
+  /***********************************
+   * 年月に対応した日の選択肢を設定
+   ***********************************/
+  {
+    // 指定された年月の末日を取得
+    var year = $("#datenavi_datesel_1i").val();
+    var month = $("#datenavi_datesel_2i").val();
+    var date = new Date(year, month, 0);
+
+    // 日の選択肢を削除
+    var selD = $("#datenavi_datesel_3i");
+    selD.children().remove();
+
+    // 日の選択肢を設定
+    for (var i = 1; i < date.getDate() + 1; i++) {
+      selD.append("<option value=" + i + ">" + i + "</option>");
+    }
+
+    // 指定日を選択
+    selD.val(<%= @cal.day %>);
+  }
+  
+</script>

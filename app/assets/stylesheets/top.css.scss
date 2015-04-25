@@ -1,0 +1,254 @@
+// Place all the styles related to the top controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+/*****************************/
+/* 口座情報                  */
+/*****************************/
+div.account-box {
+  border: 1px solid #ccc;
+  overflow: hidden; 
+  padding: 0px;
+  width: 951px;
+}
+
+ul.account-info {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+
+  li {
+    float: left;
+
+    div {
+      float: left;
+      line-height: 20px;
+    }
+
+    .account-name {
+      border-top: 1px solid #fff;
+      border-bottom: 1px solid #ccc;
+      border-left: 1px solid #fff;
+      border-right: 1px solid #ccc;
+      background: #ccc;
+      padding: 4px;
+      color: #444;
+      text-align: right;
+      width: 80px;
+    }
+
+    .account-amount {
+      border-top: 1px solid #fff;
+      border-bottom: 1px solid #ccc;
+      border-left: 1px solid #fff;
+      border-right: 1px solid #ccc;
+      padding: 4px;
+      text-align: right;
+      width: 90px;
+    }
+
+    .amount-minus {
+      color: #f00;
+      background: #ffc;
+    }
+  }
+}
+
+/*****************************/
+/* 予算/支出/残高            */
+/*****************************/
+table.budget {
+  border: 0;
+  font-size: 13px;
+  color: #333;
+
+  th {
+    border-collapse: separate;
+    border-spacing: 1px 3px 1px 3px;
+    text-align: center;
+    font-weight: normal;
+  }
+
+  th.budget-title {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 1px solid #eee;
+    background: #eee;
+    color: #333;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  th.budget-title2 {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: 1px solid #eee;
+    background: #eee;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 2px;
+    color: #333;
+  }
+
+  td.budget-value {
+    text-align: right;
+    border: 1px solid #eee;
+  }
+}
+
+.budget-days-title {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 1px solid #eee;
+  background: #eee;
+  color: #333;
+  padding-left: 5px;
+  padding-right: 2px;
+}
+
+.budget-days-value {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid #eee;
+  color: #333;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/*****************************/
+/* カレンダー                */
+/*****************************/
+.cal-box {
+  float: left;
+  width: 130px;
+  border: solid 1px #ccc;
+  padding: 1px;
+}
+
+.cal-header {
+  height: 20px;
+  text-align: center;
+}
+
+.cal-body {
+  height: 90px;
+
+  .edit-icon {
+    position: relative;
+    top: -20px;
+    left: 90px;
+
+    a {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+    }
+  }
+
+  .date-info {
+    position: relative;
+    top: 15px;
+    left: 10px;
+
+    div {
+      height: 18px;
+      font-size: 13px;
+    }
+
+    .date-info-income {
+      color: #333;
+    }
+
+    .date-info-expense {
+      color: #f33;
+    }
+  }
+}
+
+.cal-today {
+  background: #ffc;
+}
+
+.cal-date {
+  color: #666;
+  font-weight: bold;
+}
+
+.date-Sun {
+  color: #f66;
+}
+
+.date-Sat {
+  color: #66f;
+}
+
+/*****************************/
+/* 費目別残高                */
+/*****************************/
+.budget-balance-table {
+
+  th {
+    font-weight: normal;
+  }
+
+  td {
+    text-align: center;
+  }
+  .bb-title {
+    background: #efefef;
+    border-bottom: 1px solid #999;
+    border-right: 1px solid #999;
+    width: 100px;
+    text-align: center;
+  }
+
+  .bb-title2 {
+    background: #fffff0;
+    border-bottom: 1px solid #ccccc0;
+    border-right: 1px solid #ccccc0;
+    width: 100px;
+    padding-left: 5px;
+  }
+  
+  .bb-value {
+    background: #fcfcfc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    text-align: right;
+    padding: 1px 5px 1px 1px
+  }
+
+  .bb-alert {
+    color: #f00;
+  }
+  .bb-alert-note:after {
+    position: absolute;
+    content: "(予算オーバー！)";
+    color: #f00;
+    font-size: 15px;
+  }
+  .bb-just {
+    color: #00f;
+  }
+  .bb-just-note:after {
+    position: absolute;
+    content: "(ぴったり)";
+    color: #00f;
+    font-size: 15px;
+  }
+  .bb-warn {
+    color: #ffa500;
+  }
+  .bb-warn-note:after {
+    position: absolute;
+    content: "(あとちょっと)";
+    color: #ffa500;
+    font-size: 15px;
+  }
+  .bb-ok {
+  }
+}
+
+

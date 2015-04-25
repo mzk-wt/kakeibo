@@ -1,0 +1,35 @@
+<div id="wrapper">
+  <!--=========================================================================
+  年月
+  ==========================================================================-->
+  <%= render 'shared/dateNavi', action: 'budgetBalance', type: 'YM' %>
+  
+  <!--=========================================================================
+  残高表示
+  ==========================================================================-->
+  <table class="budget-balance-table">
+    <thead>
+      <tr>
+        <th>&nbsp;</th>
+        <th class="bb-title">予算額</th>
+        <th>&nbsp;</th>
+        <th class="bb-title">支出合計</th>
+        <th>&nbsp;</th>
+        <th class="bb-title">残高</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @expenseItem.find_each { |item| %>
+      <tr>
+        <th class="bb-title2"><%= item.name %></th>
+        <td class="bb-value"><%= @budgetInfo[item.id.to_s] %></td>
+        <td>&nbsp;−&nbsp;</td>
+        <td class="bb-value"><%= @expenseInfo[item.id.to_s] %></td>
+        <td>&nbsp;=&nbsp;</td>
+        <td class="bb-value <%= @alertInfo[item.id.to_s] %>"><%= @budgetInfo[item.id.to_s].to_i - @expenseInfo[item.id.to_s].to_i %></td>
+        <td class="<%= @alertInfo[item.id.to_s] %>-note">&nbsp;</td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

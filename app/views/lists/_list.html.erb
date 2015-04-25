@@ -1,0 +1,125 @@
+<!-- 収入一覧 -->
+<div class="cashflow-title">収入</div>
+<table id="income-table" class="cashflow-table">
+  <tr>
+    <% if showDate %><th>日付</th><% end %>
+    <%= th_tag '口座', :sort => true, :filter => true %>
+    <th>費目</th><th>金額</th><th>内容</th><% if showDelete %><th>&nbsp;</th><% end %>
+  </tr>
+  <% @cashFlowI.each { |cf| %>
+  <tr id="<%= cf.id %>">
+    <% if showDate %>
+      <td><%= cf.date.strftime("%Y/%m/%d") %></td>
+    <% end %>
+    <td><%= cf.account_id.blank? ? "" : cf.account.name %></td>
+    <td><%= cf.expense_item_id.blank? ? "" : cf.expense_item.name %></td>
+    <td align="right"><%= cf.amount.to_c %></td>
+    <td><%= cf.memo %></td>
+    <% if showDelete %>
+      <td><div class="delbutton"><%= link_to "削除", cash_flow_path(cf.id), method: :delete, :remote=>true %></div></td>
+    <% end %>
+  </tr>
+  <% } %>
+</table>
+
+<div class="empty-line"></div>
+
+<!-- 支出一覧 -->
+<div class="cashflow-title">支出</div>
+<table id="expense-table" class="cashflow-table">
+  <tr>
+    <% if showDate %><th>日付</th><% end %><th>口座</th><th>費目</th><th>金額</th><th>内容</th><th>カード払い</th><% if showDelete %><th>&nbsp;</th><% end %>
+  </tr>
+  <% @cashFlowO.each { |cf| %>
+  <tr id="<%= cf.id %>">
+    <% if showDate %>
+      <td><%= cf.date.strftime("%Y/%m/%d") %></td>
+    <% end %>
+    <td><%= cf.account_id.blank? ? "" : cf.account.name %></td>
+    <td><%= cf.expense_item_id.blank? ? "" : cf.expense_item.name %></td>
+    <td align="right"><%= cf.amount.to_c %></td>
+    <td><%= cf.memo %></td>
+    <td align="center"><%= cf.credit_card ? "○" : "" %></td>
+    <% if showDelete %>
+      <td><div class="delbutton"><%= link_to "削除", cash_flow_path(cf.id), method: :delete, :remote=>true %></div></td>
+    <% end %>
+  </tr>
+  <% } %>
+</table>
+
+<div class="empty-line"></div>
+
+<!-- 移動一覧 -->
+<div class="cashflow-title">移動</div>
+<table id="move-table" class="cashflow-table">
+  <tr>
+    <% if showDate %><th>日付</th><% end %><th>口座</th><th>移動先</th><th>金額</th><th>内容</th><% if showDelete %><th>&nbsp;</th><% end %>
+  </tr>
+  <% @cashFlowM.each { |cf| %>
+  <tr id="<%= cf.id %>">
+    <% if showDate %>
+      <td><%= cf.date.strftime("%Y/%m/%d") %></td>
+    <% end %>
+    <td><%= cf.account_id.blank? ? "" : cf.account.name %></td>
+    <td><%= cf.move_to.blank? ? "" : cf.move_to_account.name %></td>
+    <td align="right"><%= cf.amount.to_c %></td>
+    <td><%= cf.memo %></td>
+    <% if showDelete %>
+      <td><div class="delbutton"><%= link_to "削除", cash_flow_path(cf.id), method: :delete, :remote=>true %></div></td>
+    <% end %>
+  </tr>
+  <% } %>
+</table>
+
+<script type="text/javascript">
+/**
+ * 一覧に追加
+ */
+function addList(params) {
+  var flowType = params.flow_type;
+  if (flowType == "i") {
+    $("#income-table").append(
+        "<tr id='" + params.id + "'>" +
+        "  <td>" + params.account_name + "</td>" +
+        "  <td>" + params.expense_item_name + "</td>" +
+        "  <td align='right'>" + params.amount + "</td>" +
+        "  <td>" + params.memo + "</td>" +
+        "  <td><div class='delbutton'>" +
+        "    <a data-method='delete' data-remote='true' href='/cash_flows/" + params.id + "' rel='nofollow'>削除</a>" +
+        "  </div></td>" +
+        "</tr>");
+
+  } else if (flowType == "o") { 
+    $("#expense-table").append(
+        "<tr id='" + params.id + "'>" +
+        "  <td>" + params.account_name + "</td>" +
+        "  <td>" + params.expense_item_name + "</td>" +
+        "  <td align='right'>" + params.amount + "</td>" +
+        "  <td>" + params.memo + "</td>" +
+        "  <td align='center'>" + params.credit_card + "</td>" +
+        "  <td><div class='delbutton'>" +
+        "    <a data-method='delete' data-remote='true' href='/cash_flows/" + params.id + "' rel='nofollow'>削除</a>" +
+        "  </div></td>" +
+        "</tr>");
+    
+  } else if (flowType == "m") { 
+    $("#move-table").append(
+        "<tr id='" + params.id + "'>" +
+        "  <td>" + params.account_name + "</td>" +
+        "  <td>" + params.move_to_name + "</td>" +
+        "  <td align='right'>" + params.amount + "</td>" +
+        "  <td>" + params.memo + "</td>" +
+        "  <td><div class='delbutton'>" +
+        "    <a data-method='delete' data-remote='true' href='/cash_flows/" + params.id + "' rel='nofollow'>削除</a>" +
+        "  </div></td>" +
+        "</tr>");
+  }
+}
+
+/**
+ * 一覧から削除
+ */
+function deleteList(id) {
+  $("tr#" + id).remove();
+}
+</script>

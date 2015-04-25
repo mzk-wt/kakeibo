@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2015-02-01
+  account_id: 1
+  type: 
+  amount: 1
+  move_to: 1
+  expense_item_id: 1
+  memo: MyText
+  credit_card: false
+
+two:
+  date: 2015-02-01
+  account_id: 1
+  type: 
+  amount: 1
+  move_to: 1
+  expense_item_id: 1
+  memo: MyText
+  credit_card: false

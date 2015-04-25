@@ -1,0 +1,5 @@
+// ajax処理
+// destroyアクション実行後の描画処理でrailsから自動で呼ばれる
+if (typeof deleteList == "function") {
+  deleteList("<%= @cashFlow.id %>");
+}
