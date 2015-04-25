@@ -2,9 +2,7 @@
 <div class="cashflow-title">収入</div>
 <table id="income-table" class="cashflow-table">
   <tr>
-    <% if showDate %><th>日付</th><% end %>
-    <%= th_tag '口座', :sort => true, :filter => true %>
-    <th>費目</th><th>金額</th><th>内容</th><% if showDelete %><th>&nbsp;</th><% end %>
+    <% if showDate %><th>日付</th><% end %><th>口座</th><th>費目</th><th>金額</th><th>内容</th><% if showDelete %><th>&nbsp;</th><% end %>
   </tr>
   <% @cashFlowI.each { |cf| %>
   <tr id="<%= cf.id %>">
