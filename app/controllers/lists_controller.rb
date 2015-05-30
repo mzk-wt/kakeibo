@@ -27,7 +27,7 @@ class ListsController < ApplicationController
     # 選択肢
     # -----------------
     # 口座
-    @accounts = Account.all.order(id: :asc).map { |t| [t.name, t.id] }
+    @accounts = Account.all.order(sort: :asc).map { |t| [t.name, t.id] }
     # フロー種別
     @flowTypes = [['支出', 'o'], ['収入', 'i'], ['移動', 'm']]
     # 費目
