@@ -5,6 +5,7 @@ class CreateAccounts < ActiveRecord::Migration
       t.integer :init_amount
       t.date :init_date
       t.integer :current_amount
+      t.integer :sort
 
       t.timestamps
     end

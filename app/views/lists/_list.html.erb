@@ -7,7 +7,10 @@
   <% @cashFlowI.each { |cf| %>
   <tr id="<%= cf.id %>">
     <% if showDate %>
-      <td><%= cf.date.strftime("%Y/%m/%d") %></td>
+      <td>
+        <%= link_to cf.date.strftime("%Y/%m/%d"),
+            :controller=>"lists", :action=>"dailyList", :year=>cf.date.year, :month=>cf.date.month, :day=>cf.date.day %>
+      </td>
     <% end %>
     <td><%= cf.account_id.blank? ? "" : cf.account.name %></td>
     <td><%= cf.expense_item_id.blank? ? "" : cf.expense_item.name %></td>
@@ -31,7 +34,10 @@
   <% @cashFlowO.each { |cf| %>
   <tr id="<%= cf.id %>">
     <% if showDate %>
-      <td><%= cf.date.strftime("%Y/%m/%d") %></td>
+      <td>
+        <%= link_to cf.date.strftime("%Y/%m/%d"),
+            :controller=>"lists", :action=>"dailyList", :year=>cf.date.year, :month=>cf.date.month, :day=>cf.date.day %>
+      </td>
     <% end %>
     <td><%= cf.account_id.blank? ? "" : cf.account.name %></td>
     <td><%= cf.expense_item_id.blank? ? "" : cf.expense_item.name %></td>
@@ -56,7 +62,10 @@
   <% @cashFlowM.each { |cf| %>
   <tr id="<%= cf.id %>">
     <% if showDate %>
-      <td><%= cf.date.strftime("%Y/%m/%d") %></td>
+      <td>
+        <%= link_to cf.date.strftime("%Y/%m/%d"),
+            :controller=>"lists", :action=>"dailyList", :year=>cf.date.year, :month=>cf.date.month, :day=>cf.date.day %>
+      </td>
     <% end %>
     <td><%= cf.account_id.blank? ? "" : cf.account.name %></td>
     <td><%= cf.move_to.blank? ? "" : cf.move_to_account.name %></td>
