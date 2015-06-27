@@ -43,5 +43,22 @@
   </table>
 
   <span>支出の部明細</span>
+  <table border="1">
+    <tr>
+      <th>費目</th>
+      <th>金額</th>
+      <th>口座別内訳</th>
+    </tr>
+    <% @outgoInfo.each_value { |info| %>
+      <tr>
+        <td><%= info["name"] %></td>
+        <td><%= info["outgo_sum"] %></td>
+      </tr>
+    <% } %>
+    <tr>
+      <td>合計</td>
+      <td><%= @outgoTotal %></td>
+    </tr>
+  </table>
 
 </div>

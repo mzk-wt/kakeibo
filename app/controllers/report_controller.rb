@@ -49,17 +49,29 @@ class ReportController < ApplicationController
       # 費目名
       info["name"]       = item.name
       # 収入合計
-      info["income_sum"]  = @cashFlowI.where(expense_item_id: item.id).sum(:amount)
+      info["income_sum"] = @cashFlowI.where(expense_item_id: item.id).sum(:amount)
 
       @incomeInfo[item.id] = info
     end
     
     # 合計
     @incomeTotal = @cashFlowI.sum(:amount)
-
     
     # 支出の部明細
     # -----------------
+    @outgoInfo = {}
+    @expenseItemO.each do |item|
+      info = {}
+      # 費目名
+      info["name"]      = item.name
+      # 支出合計
+      info["outgo_sum"] = @cashFlowO.where(expense_item_id: item.id).sum(:amount)
+
+      @outgoInfo[item.id] = info
+    end
+
+    # 合計
+    @outgoTotal = @cashFlowO.sum(:amount)
 
   end
 
