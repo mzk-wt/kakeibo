@@ -1,0 +1,22 @@
+<table>
+  <tr>
+    <th>口座</th>
+    <th>収入</th>
+    <th>支出</th>
+    <th>合計</th>
+  </tr>
+  <% @accountInfo.each_value { |info| %>
+    <tr>
+      <td><%= info["name"] %></td>
+      <td><%= info["income_sum"] %></td>
+      <td><%= info["outgo_sum"] %></td>
+      <td><%= info["total"] %></td>
+    </tr>
+  <% } %>
+  <tr>
+    <td>合計</td>
+    <td><%= @cashFlowI.sum(:amount) %></td>
+    <td><%= @cashFlowO.sum(:amount) %></td>
+    <td><%= @cashFlowI.sum(:amount) - @cashFlowO.sum(:amount) %></td>
+  </tr>
+</table>

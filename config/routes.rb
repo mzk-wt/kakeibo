@@ -23,6 +23,8 @@ Kakeibo::Application.routes.draw do
     get 'lumpUpdate', :on => :collection
 	end
 
+  get 'report/index' => 'report#index'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
