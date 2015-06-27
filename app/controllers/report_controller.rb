@@ -1,11 +1,17 @@
 class ReportController < ApplicationController
 
   def index
+    # 表示期間
     @calFrom = getCalendarFrom()
     @calTo   = getCalendarTo()
 
     # 口座
     @account = Account.all.order(sort: :asc)
+    # 費目（収入）
+    @expenseItemI = ExpenseItem.where(expense_type: "i").order(sort: :asc)
+    # 費目（支出）
+    @expenseItemO = ExpenseItem.where(expense_type: "o").order(sort: :asc)
+    # 収入一覧
     # 収入一覧
     @cashFlowI = CashFlow.where(date: @calFrom..@calTo, flow_type: 'i')
     # 支出一覧
@@ -30,9 +36,26 @@ class ReportController < ApplicationController
       @accountInfo[account.id] = info
     end
 
+    # 合計
+    @accountTotalI = @cashFlowI.sum(:amount) 
+    @accountTotalO = @cashFlowO.sum(:amount)
+    @accountTotal  = @accountTotalI - @accountTotalO
+
     # 収入の部明細
     # -----------------
+    @incomeInfo = {}
+    @expenseItemI.each do |item|
+      info = {}
+      # 費目名
+      info["name"]       = item.name
+      # 収入合計
+      info["income_sum"]  = @cashFlowI.where(expense_item_id: item.id).sum(:amount)
+
+      @incomeInfo[item.id] = info
+    end
     
+    # 合計
+    @incomeTotal = @cashFlowI.sum(:amount)
 
     
     # 支出の部明細
