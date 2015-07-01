@@ -7,13 +7,22 @@
       <th>支出</th>
       <th>合計</th>
     </tr>
-    <% @accountInfo.each_value { |info| %>
+    <% @accountInfo.each { |key, info| %>
       <tr>
         <td><%= info["name"] %></td>
-        <td><%= info["income_sum"] %></td>
-        <td><%= info["outgo_sum"] %></td>
+        <td><%= info["incomeSum"] %></td>
+        <td><%= info["outgoSum"] %></td>
         <td><%= info["total"] %></td>
       </tr>
+      <tr>
+        <% @cashFlowSum.where(account_id: key, flow_type: 'o').each { |cf| %>
+          <% if @outgoInfo.has_key?(cf.expense_item_id) then %>
+          <td><%= @outgoInfo[cf.expense_item_id]["name"] %></td>
+          <% end %>
+          <td><%= cf.sum_amount %></td>
+        <% } %>
+      </tr>
+
     <% } %>
     <tr>
       <td>合計</td>
@@ -30,10 +39,19 @@
       <th>金額</th>
       <th>口座別内訳</th>
     </tr>
-    <% @incomeInfo.each_value { |info| %>
+    <% @incomeInfo.each { |key, info| %>
       <tr>
         <td><%= info["name"] %></td>
-        <td><%= info["income_sum"] %></td>
+        <td><%= info["incomeSum"] %></td>
+      </tr>
+
+      <tr>
+        <% @cashFlowSum.where(expense_item_id: key, flow_type: 'i').each { |cf| %>
+          <% if @accountInfo.has_key?(cf.account_id) then %>
+          <td><%= @accountInfo[cf.account_id]["name"] %></td>
+          <% end %>
+          <td><%= cf.sum_amount %></td>
+        <% } %>
       </tr>
     <% } %>
     <tr>
@@ -49,10 +67,18 @@
       <th>金額</th>
       <th>口座別内訳</th>
     </tr>
-    <% @outgoInfo.each_value { |info| %>
+    <% @outgoInfo.each { |key, info| %>
       <tr>
         <td><%= info["name"] %></td>
-        <td><%= info["outgo_sum"] %></td>
+        <td><%= info["outgoSum"] %></td>
+      </tr>
+      <tr>
+        <% @cashFlowSum.where(expense_item_id: key, flow_type: 'o').each { |cf| %>
+          <% if @accountInfo.has_key?(cf.account_id) then %>
+          <td><%= @accountInfo[cf.account_id]["name"] %></td>
+          <% end %>
+          <td><%= cf.sum_amount %></td>
+        <% } %>
       </tr>
     <% } %>
     <tr>
@@ -61,4 +87,5 @@
     </tr>
   </table>
 
+  <span>電気料金詳細</span>
 </div>
