@@ -46,7 +46,7 @@ class ReportController < ApplicationController
       # 支出合計
       info["outgoSum"]  = @cashFlowO.where(account_id: account.id).sum(:amount)
       # 合計
-      info["total"]      = info["income_sum"].to_i - info["outgo_sum"].to_i
+      info["total"]      = info["incomeSum"].to_i - info["outgoSum"].to_i
 
       # ------------------------------
       # １口座分の情報を登録

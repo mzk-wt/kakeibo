@@ -1,91 +1,147 @@
 <div id="wrapper">
-  <span>口座別収支</span>
-  <table border="1">
+  <div class="report-title">口座別収支</div>
+  <table class="report-table">
     <tr>
-      <th>口座</th>
-      <th>収入</th>
-      <th>支出</th>
-      <th>合計</th>
+      <th width="150px" rowspan="2">口座</th>
+      <th width="330px" colspan="2">収入</th>
+      <th width="330px" colspan="2">支出</th>
+      <th width="150px" rowspan="2">合計</th>
+    </tr>
+    <tr>
+      <th width="100px">合計</th>
+      <th width="230px">費目別内訳</th>
+      <th width="100px">合計</th>
+      <th width="230px">費目別内訳</th>
     </tr>
     <% @accountInfo.each { |key, info| %>
       <tr>
-        <td><%= info["name"] %></td>
-        <td><%= info["incomeSum"] %></td>
-        <td><%= info["outgoSum"] %></td>
-        <td><%= info["total"] %></td>
+        <!-- 口座名 -->
+        <td class="t-head"><%= info["name"] %></td>
+        <!-- 収入合計 -->
+        <td class="currency"><%= info["incomeSum"] %></td>
+        <!-- 収入費目別内訳 -->
+        <td>
+          <table class="report-table-detail">
+            <% @cashFlowSum.where(account_id: key, flow_type: 'i').each { |cf| %>
+              <tr>
+                <td width="100px" class="t-head">
+                  <% if @outgoInfo.has_key?(cf.expense_item_id) then %>
+                    <%= @outgoInfo[cf.expense_item_id]["name"] %>
+                  <% end %>
+                </td>
+                <td width="130px" class="currency"><%= cf.sum_amount %></td>
+              </tr>
+            <% }%>
+          </table>
+        </td>
+        <!-- 支出合計 -->
+        <td class="currency"><%= info["outgoSum"] %></td>
+        <!-- 支出費目別内訳 -->
+        <td>
+          <table class="report-table-detail">
+            <% @cashFlowSum.where(account_id: key, flow_type: 'o').each { |cf| %>
+              <tr>
+                <td width="100px" class="t-head">
+                  <% if @outgoInfo.has_key?(cf.expense_item_id) then %>
+                    <%= @outgoInfo[cf.expense_item_id]["name"] %>
+                  <% end %>
+                </td>
+                <td width="130px" class="currency"><%= cf.sum_amount %></td>
+              </tr>
+            <% }%>
+          </table>
+        </td>
+        <!-- 合計 -->
+        <td class="currency"><%= info["total"] %></td>
       </tr>
-      <tr>
-        <% @cashFlowSum.where(account_id: key, flow_type: 'o').each { |cf| %>
-          <% if @outgoInfo.has_key?(cf.expense_item_id) then %>
-          <td><%= @outgoInfo[cf.expense_item_id]["name"] %></td>
-          <% end %>
-          <td><%= cf.sum_amount %></td>
-        <% } %>
-      </tr>
-
     <% } %>
     <tr>
-      <td>合計</td>
-      <td><%= @accountTotalI %></td>
-      <td><%= @accountTotalO %></td>
-      <td><%= @accountTotal %></td>
+      <td class="t-head">合計</td>
+      <td class="currency" colspan="2"><%= @accountTotalI %></td>
+      <td class="currency" colspan="2"><%= @accountTotalO %></td>
+      <td class="currency"><%= @accountTotal %></td>
     </tr>
   </table>
 
-  <span>収入の部明細</span>
-  <table border="1">
+  <br/>
+
+  <div class="report-title">収入の部明細</div>
+  <table class="report-table">
     <tr>
-      <th>費目</th>
-      <th>金額</th>
-      <th>口座別内訳</th>
+      <th width="300px">費目</th>
+      <th width="300px">金額</th>
+      <th width="360px">口座別内訳</th>
     </tr>
     <% @incomeInfo.each { |key, info| %>
       <tr>
-        <td><%= info["name"] %></td>
-        <td><%= info["incomeSum"] %></td>
-      </tr>
-
-      <tr>
-        <% @cashFlowSum.where(expense_item_id: key, flow_type: 'i').each { |cf| %>
-          <% if @accountInfo.has_key?(cf.account_id) then %>
-          <td><%= @accountInfo[cf.account_id]["name"] %></td>
-          <% end %>
-          <td><%= cf.sum_amount %></td>
-        <% } %>
+        <!-- 費目名 -->
+        <td class="t-head"><%= info["name"] %></td>
+        <!-- 収入金額 -->
+        <td class="currency"><%= info["incomeSum"] %></td>
+        <!-- 口座別内訳 -->
+        <td>
+          <table class="report-table-detail">
+            <% @cashFlowSum.where(expense_item_id: key, flow_type: 'i').each { |cf| %>
+              <tr>
+                <td width="150px" class="t-head">
+                  <% if @accountInfo.has_key?(cf.account_id) then %>
+                    <%= @accountInfo[cf.account_id]["name"] %>
+                  <% end %>
+                </td>
+                <td width="210px" class="currency"><%= cf.sum_amount %></td>
+              </tr>
+            <% } %>
+          </table>
+        </td>
       </tr>
     <% } %>
     <tr>
-      <td>合計</td>
-      <td><%= @incomeTotal %></td>
+      <td class="t-head">合計</td>
+      <td class="currency"><%= @incomeTotal %></td>
     </tr>
   </table>
 
-  <span>支出の部明細</span>
-  <table border="1">
+  <br/>
+
+  <div class="report-title">支出の部明細</div>
+  <table class="report-table">
     <tr>
-      <th>費目</th>
-      <th>金額</th>
-      <th>口座別内訳</th>
+      <th width="300px">費目</th>
+      <th width="300px">金額</th>
+      <th width="360px">口座別内訳</th>
     </tr>
     <% @outgoInfo.each { |key, info| %>
       <tr>
-        <td><%= info["name"] %></td>
-        <td><%= info["outgoSum"] %></td>
-      </tr>
-      <tr>
-        <% @cashFlowSum.where(expense_item_id: key, flow_type: 'o').each { |cf| %>
-          <% if @accountInfo.has_key?(cf.account_id) then %>
-          <td><%= @accountInfo[cf.account_id]["name"] %></td>
-          <% end %>
-          <td><%= cf.sum_amount %></td>
-        <% } %>
+        <!-- 費目名 -->
+        <td class="t-head"><%= info["name"] %></td>
+        <!-- 支出金額 -->
+        <td class="currency"><%= info["outgoSum"] %></td>
+        <!-- 口座別内訳 -->
+        <td>
+          <table class="report-table-detail">
+            <% @cashFlowSum.where(expense_item_id: key, flow_type: 'o').each { |cf| %>
+              <tr>
+                <td width="150px" class="t-head">
+                  <% if @accountInfo.has_key?(cf.account_id) then %>
+                    <%= @accountInfo[cf.account_id]["name"] %>
+                  <% end %>
+                </td>
+                <td width="210px" class="currency"><%= cf.sum_amount %></td>
+              </tr>
+            <% } %>
+          </table>
+        </td>
       </tr>
     <% } %>
     <tr>
-      <td>合計</td>
-      <td><%= @outgoTotal %></td>
+      <td class="t-head">合計</td>
+      <td class="currency"><%= @outgoTotal %></td>
     </tr>
   </table>
 
-  <span>電気料金詳細</span>
+  <br/>
+
+  <!--
+  <div class="report-title">電気料金詳細</div>
+  -->
 </div>
