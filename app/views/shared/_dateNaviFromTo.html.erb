@@ -1,0 +1,105 @@
+<!--=========================================================================
+年月日表示＆移動(From-To)
+==========================================================================-->
+<div class="date-navi">
+  <!-- 期間（From） -->
+  <div class="date-char">
+    <%== sprintf(
+           date_select(:datenavi_f, :datesel,
+                       { :use_month_numbers => true,
+                         :start_year        => 2015,
+                         :end_year          => 2030,
+                         :default           => @calFrom,
+                         :date_separator    => "%s",
+                         :discard_day       => (type == "YM") },
+                       { :onchange          => "setDays('datenavi_f')"}),
+           "年 ", "月 ")
+    %><%= (type == "YM") ? "月" : "日" %>
+  </div>
+
+  <div>〜</div>
+
+  <!-- 期間（To） -->
+  <div class="date-char">
+    <%== sprintf(
+           date_select(:datenavi_t, :datesel,
+                       { :use_month_numbers => true,
+                         :start_year        => 2015,
+                         :end_year          => 2030,
+                         :default           => @calTo,
+                         :date_separator    => "%s",
+                         :discard_day       => (type == "YM") },
+                       { :onchange          => "setDays('datenavi_t')"}),
+           "年 ", "月 ")
+    %><%= (type == "YM") ? "月" : "日" %>
+  </div>
+
+  <!-- 表示ボタン -->
+  <div class="button-b" style="margin-top:5px">
+    <%= link_to "表示", {}, :onclick => "return viewReport();" %>
+  </div>
+
+</div>
+
+<div style="clear:both;"></div>
+
+<script type="text/javascript">
+  function viewReport() {
+    // 選択された値を取得
+    var yf = $("#datenavi_f_datesel_1i").val();
+    var mf = $("#datenavi_f_datesel_2i").val();
+    var df = $("#datenavi_f_datesel_3i").val();
+    var yt = $("#datenavi_t_datesel_1i").val();
+    var mt = $("#datenavi_t_datesel_2i").val();
+    var dt = $("#datenavi_t_datesel_3i").val();
+
+    // 日付の前後チェック
+    var dateF = new Date(yf, mf, df);
+    var dateT = new Date(yt, mt, dt);
+    if (dateF > dateT) {
+      dateF = new Date(yt, mt, dt);
+      dateT = new Date(yf, mf, df);
+    }
+ 
+    // アクション実行
+    location.href = "?day_f="   + dateF.getDate()
+                  + "&month_f=" + dateF.getMonth()
+                  + "&year_f="  + dateF.getFullYear()
+                  + "&day_t="   + dateT.getDate()
+                  + "&month_t=" + dateT.getMonth()
+                  + "&year_t="  + dateT.getFullYear();
+  }
+
+  /***********************************
+   * 年月に対応した日の選択肢を設定
+   ***********************************/
+  setDays("datenavi_f");
+  setDays("datenavi_t");
+
+  function setDays(objName) {
+    // 現在選択されている値
+    var day = $("#" + objName + "_datesel_3i").val();
+
+    // 指定された年月の末日を取得
+    var year = $("#" + objName + "_datesel_1i").val();
+    var month = $("#" + objName + "_datesel_2i").val();
+    var date = new Date(year, month, 0);
+
+    // 日の選択肢を削除
+    var selD = $("#" + objName + "_datesel_3i");
+    selD.children().remove();
+
+    // 日の選択肢を設定
+    for (var i = 1; i < date.getDate() + 1; i++) {
+      selD.append("<option value=" + i + ">" + i + "</option>");
+    }
+
+    // 指定日を選択
+    if (day > date.getDate()) {
+      selD.val(date.getDate());
+    } else {
+      selD.val(day);
+    }
+  }
+  
+</script>

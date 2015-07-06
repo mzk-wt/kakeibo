@@ -11,4 +11,8 @@
   <li><div class="linkbutton">
     <%= link_to "予算を立てる", :controller=>"budgets", :action=>"index", :year=>@cal.year, :month=>@cal.month, :day=>1 %>
   </div></li>
+  <li><div class="linkbutton">
+    <%= link_to "レポート", { :controller=>"report", :action=>"index", :year=>@cal.year, :month=>@cal.month, :day=>1 },
+                            { :target=>"_blank" } %>
+  </div></li>
 </ul>

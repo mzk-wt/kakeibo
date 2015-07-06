@@ -50,14 +50,32 @@ class ApplicationController < ActionController::Base
   # リクエストパラメータから年月日(From)を算出する
   ####################################################
   def getCalendarFrom()
-    Date.new(2015, 3, 1)
+
+    # 現在の年月日（初回表示時に使う）
+    cal = getCalendar()
+    
+    # リクエストパラメータから年月日を取得
+    year  = params[:year_f].blank?  ? cal.year  : params[:year_f]
+    month = params[:month_f].blank? ? cal.month : params[:month_f]
+    day   = params[:day_f].blank?   ? "1"       : params[:day_f]
+
+    Date.new(year.to_i, month.to_i, day.to_i)
   end
 
   ####################################################
   # リクエストパラメータから年月日(To)を算出する
   ####################################################
   def getCalendarTo()
-    Date.new(2015, 3, 31)
+
+    # 現在の年月日（初回表示時に使う）
+    cal = getCalendar()
+    
+    # リクエストパラメータから年月日を取得
+    year  = params[:year_t].blank?  ? cal.year  : params[:year_t]
+    month = params[:month_t].blank? ? cal.month : params[:month_t]
+    day   = params[:day_t].blank?   ? cal.end_of_month.day : params[:day_t]
+
+    Date.new(year.to_i, month.to_i, day.to_i)
   end
 
 private
