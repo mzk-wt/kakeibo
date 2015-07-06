@@ -27,7 +27,7 @@ class ReportController < ApplicationController
     @cashFlowSum = CashFlow.unscoped
                            .where(date: @calFrom..@calTo)
                            .select('sum(amount) AS sum_amount, account_id, expense_item_id, flow_type')
-                           .group('account_id, expense_item_id')
+                           .group('account_id, expense_item_id, flow_type')
     
     # ******************************
     # 口座別収支情報作成
