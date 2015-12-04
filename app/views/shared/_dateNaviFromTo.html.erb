@@ -54,11 +54,11 @@
     var dt = $("#datenavi_t_datesel_3i").val();
 
     // 日付の前後チェック
-    var dateF = new Date(yf, mf, df);
-    var dateT = new Date(yt, mt, dt);
+    var dateF = new Date(yf, mf - 1, df);
+    var dateT = new Date(yt, mt - 1, dt);
     if (dateF > dateT) {
-      dateF = new Date(yt, mt, dt);
-      dateT = new Date(yf, mf, df);
+      dateF = new Date(yt, mt - 1, dt);
+      dateT = new Date(yf, mf - 1, df);
     }
  
     // アクション実行
