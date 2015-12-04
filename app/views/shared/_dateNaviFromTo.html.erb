@@ -63,10 +63,10 @@
  
     // アクション実行
     location.href = "?day_f="   + dateF.getDate()
-                  + "&month_f=" + dateF.getMonth()
+                  + "&month_f=" + (dateF.getMonth() + 1)
                   + "&year_f="  + dateF.getFullYear()
                   + "&day_t="   + dateT.getDate()
-                  + "&month_t=" + dateT.getMonth()
+                  + "&month_t=" + (dateT.getMonth() + 1)
                   + "&year_t="  + dateT.getFullYear();
   }
 
