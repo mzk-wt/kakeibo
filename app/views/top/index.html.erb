@@ -95,11 +95,11 @@
   date = @cal.beginning_of_month
   6.times { |w|
     weekday.each_with_index { |weekday, d|
-      if (date.month > @cal.month && date.wday == 0)
+      if ((date.year > @cal.year || date.month > @cal.month) && date.wday == 0)
         # 月末以降で新しい週ならば、ここで終了
         break
 
-      elsif (w == 0 && @cal.beginning_of_month.wday > d) || (date.month > @cal.month)
+      elsif (w == 0 && @cal.beginning_of_month.wday > d) || (date.month > @cal.month) || (date.year > @cal.year)
         if (date.month > @cal.month)
           date += 1
         end
