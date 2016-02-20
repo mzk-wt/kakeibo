@@ -121,15 +121,15 @@
       <!-- 収入/支出 -->
       <div class="date-info">
         <div class="date-info-income">
-          <% if @incomeAll.count(:date, :conditions => ["date=?", date]) > 0 %>
-          ＋<%= @incomeAll.sum(:amount, :conditions => ["date=?", date]).to_c %>
+          <% if @incomeAll.where("date=?", date).count(:date) > 0 %>
+          ＋<%= @incomeAll.where("date=?", date).sum(:amount).to_c %>
           <% else %>
           &nbsp;
           <% end %>
         </div>
         <div class="date-info-expense">
-          <% if @expenseAll.count(:date, :conditions => ["date=?", date]) > 0 %>
-          ー<%= @expenseAll.sum(:amount, :conditions => ["date=?", date]).to_c %>
+          <% if @expenseAll.where("date=?", date).count(:date) > 0 %>
+          ー<%= @expenseAll.where("date=?", date).sum(:amount).to_c %>
           <% else %>
           &nbsp;
           <% end %>
