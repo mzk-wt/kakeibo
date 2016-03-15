@@ -31,8 +31,8 @@ class ListsController < ApplicationController
     # フロー種別
     @flowTypes = [['支出', 'o'], ['収入', 'i'], ['移動', 'm']]
     # 費目
-    @expItemsI = [["", ""]].concat(ExpenseItem.where(expense_type: 'i').order(id: :asc).map { |t| [t.name, t.id] })
-    @expItemsO = [["", ""]].concat(ExpenseItem.where(expense_type: 'o').order(id: :asc).map { |t| [t.name, t.id] })
+    @expItemsI = [["", ""]].concat(ExpenseItem.where(expense_type: 'i').order(sort: :asc).map { |t| [t.name, t.id] })
+    @expItemsO = [["", ""]].concat(ExpenseItem.where(expense_type: 'o').order(sort: :asc).map { |t| [t.name, t.id] })
 
     # 収入一覧
     @cashFlowI = CashFlow.where(date: @cal, flow_type: 'i')
