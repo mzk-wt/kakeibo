@@ -25,6 +25,28 @@
     color: #fff;
   }
 
+  input[type="submit"]#edit_btn {
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid #ffcc33;
+    background: #ffcc33;
+    padding: 3px 10px 3px 10px;
+    line-height: 20px;
+    height: 35px;
+    color: #fff;
+  }
+  
+  input[type="submit"]#edit_cancel_btn {
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid #cd3232;
+    background: #cd3232;
+    padding: 3px 10px 3px 10px;
+    line-height: 20px;
+    height: 35px;
+    color: #fff;
+  }
+  
   select {
     height: 25px;
     font-size: 15px;

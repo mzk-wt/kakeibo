@@ -7,7 +7,7 @@
       <th><%= f.label :expense_item_id, "費目" %></th>
       <th colspan="2"><%= f.label :amount, "金額" %></th>
       <th><%= f.label :memo, "内容" %></th>
-      <th><%= f.label :credit_card, "カード払い" %></th>
+      <th><%= f.label :credit_card, "カード" %></th>
       <th>&nbsp;</th>
     </tr>
     <tr class="input-cashflow-value">
@@ -19,11 +19,16 @@
       <td><%= link_to image_tag("icon_dentaku_b.png"), {}, :class => "dentaku", :onclick => "return changeDispAmountHelper();" %></td>
       <td><%= f.text_field :memo %></td>
       <td align="center"><%= f.check_box :credit_card %></td>
-      <td style="padding:0px 15px 0px 15px;"><%= f.submit "追加" %></td>
+      <td style="padding:0px 15px 0px 15px;" nowrap>
+        <%= f.submit "追加", name: "add_btn", id: "add_btn" %>
+        <%= f.submit "更新", name: "edit_btn", id: "edit_btn", style: "display:none;" %>
+        <%= f.submit "キャンセル", name: "edit_cancel_btn", id: "edit_cancel_btn", style: "display:none;" %>
+      </td>
     </tr>
   </table>
 
   <%= f.hidden_field :date, :value => @cal.strftime("%Y-%m-%d") %>
+  <%= f.hidden_field :id %>
 <% end %>
 
 <!-- 金額入力補助 -->

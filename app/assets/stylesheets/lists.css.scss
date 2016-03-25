@@ -35,6 +35,19 @@
     padding: 4px;
   }
 
+  .editbutton {
+    border-radius: 5px;
+    border: 1px solid #ffcc33;
+    background: #ffcc33;
+    padding: 2px 5px 2px 5px;
+    line-height: 18px;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+
   .delbutton {
     border-radius: 5px;
     border: 1px solid #cd3232;

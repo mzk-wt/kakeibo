@@ -12,11 +12,10 @@ Kakeibo::Application.routes.draw do
     get 'dailyList', :on => :collection
 	end
 
-  resources :cash_flows
-  #resources :cash_flows do
-  #  post 'save', :on => :collection
-  #  post 'delete/:id'
-  #end
+  resources :cash_flows do
+    get 'editStart', :on => :member
+    get 'editCancel', :on => :collection
+  end
 
 	resources :budgets do
 		get 'index', :on => :collection

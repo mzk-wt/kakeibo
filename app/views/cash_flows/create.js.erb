@@ -17,7 +17,7 @@ if (typeof addList == "function") {
 // フォームの入力値をクリア
 $("#cash_flow_amount").val("");                     // 金額
 $("#cash_flow_memo").val("");                       // 内容
-$("#cash_flow_credit_card").attr("checked", false); // カード払い
+$("#cash_flow_credit_card").prop("checked", false); // カード払い
 
 // 金額入力補助の値をクリアして非表示
 {

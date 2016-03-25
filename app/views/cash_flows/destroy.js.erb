@@ -3,3 +3,23 @@
 if (typeof deleteList == "function") {
   deleteList("<%= @cashFlow.id %>");
 }
+
+// 編集対象の行が削除された場合
+if ($("#cash_flow_id").val() == <%= @cashFlow.id %>) {
+  // フォームをクリア
+  $("#cash_flow_amount").val("");                     // 金額
+  $("#cash_flow_memo").val("");                       // 内容
+  $("#cash_flow_credit_card").prop("checked", false); // カード払い
+  $("#cash_flow_id").val("");                         // ID
+
+  $("#cash_flow_flow_type").prop("disabled", false);
+
+  // ボタンの表示切替
+  $("#add_btn").show();
+  $("#edit_btn").hide();
+  $("#edit_cancel_btn").hide();
+
+  // 一覧の背景色
+  $(".cashflow-table tr td").css("background", "#fff");
+}
+
