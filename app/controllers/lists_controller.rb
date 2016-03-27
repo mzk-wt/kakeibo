@@ -8,6 +8,16 @@ class ListsController < ApplicationController
     dateFrom = @cal.beginning_of_month
     dateTo = @cal.end_of_month
 
+    # 選択肢（絞り込み用）
+    # -----------------
+    # 口座
+    @accounts = [["", ""]].concat(Account.all.order(sort: :asc).map { |t| [t.name, t.id] })
+    # 費目
+    @expItemsI = [["", ""]].concat(ExpenseItem.where(expense_type: 'i').order(sort: :asc).map { |t| [t.name, t.id] })
+    @expItemsO = [["", ""]].concat(ExpenseItem.where(expense_type: 'o').order(sort: :asc).map { |t| [t.name, t.id] })
+    # カード払い
+    @card = [["", ""], ["○", "○"]] 
+
     # 収入一覧
     @cashFlowI = CashFlow.where(date: dateFrom..dateTo, flow_type: 'i').order(date: :asc)
     # 支出一覧

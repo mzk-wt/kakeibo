@@ -1,5 +1,14 @@
 <!-- 収入一覧 -->
 <div class="cashflow-title">収入</div>
+<% if showFilter %>
+  <div class="cashflow-filter">
+    <table><tr>
+        <th>絞り込み</th>
+        <td>口座：<%= select :filter_i, :accounts, @accounts %></td>
+        <td>費目：<%= select :filter_i, :expItemsI, @expItemsI %></td>
+    </tr></table>
+  </div>
+<% end %>
 <table id="income-table" class="cashflow-table">
   <tr>
     <% if showDate %><th>日付</th><% end %><th>口座</th><th>費目</th><th>金額</th><th>内容</th><% if showEdit %><th>&nbsp;</th><% end %><% if showDelete %><th>&nbsp;</th><% end %>
@@ -30,6 +39,16 @@
 
 <!-- 支出一覧 -->
 <div class="cashflow-title">支出</div>
+<% if showFilter %>
+  <div class="cashflow-filter">
+    <table><tr>
+      <th>絞り込み</th>
+      <td>口座：<%= select :filter_o, :accounts, @accounts %></td>
+      <td>費目：<%= select :filter_o, :expItemsO, @expItemsO %></td>
+      <td>カード払い：<%= select :filter_o, :card, @card %></td>
+    </tr></table>
+  </div>
+<% end %>
 <table id="expense-table" class="cashflow-table">
   <tr>
     <% if showDate %><th>日付</th><% end %><th>口座</th><th>費目</th><th>金額</th><th>内容</th><th>カード払い</th><% if showEdit %><th>&nbsp;</th><% end %><% if showDelete %><th>&nbsp;</th><% end %>
@@ -61,6 +80,15 @@
 
 <!-- 移動一覧 -->
 <div class="cashflow-title">移動</div>
+<% if showFilter %>
+  <div class="cashflow-filter">
+    <table><tr>
+      <th>絞り込み</th>
+      <td>口座：<%= select :filter_m, :accounts, @accounts %></td>
+      <td>移動先：<%= select :filter_m, :moveTo, @accounts %></td>
+    </tr></table>
+  </div>
+<% end %>
 <table id="move-table" class="cashflow-table">
   <tr>
     <% if showDate %><th>日付</th><% end %><th>口座</th><th>移動先</th><th>金額</th><th>内容</th><% if showEdit %><th>&nbsp;</th><% end %><% if showDelete %><th>&nbsp;</th><% end %>
@@ -159,5 +187,88 @@ function updateList(params) {
  */
 function deleteList(id) {
   $("tr#" + id).remove();
+}
+
+/**
+ * 絞り込み
+ */
+// 収入
+// （口座）
+$("#filter_i_accounts").change(function(){ filterIncomeTable(); });
+// （費目）
+$("#filter_i_expItemsI").change(function(){ filterIncomeTable(); });
+
+function filterIncomeTable() {
+  filterList({
+    listId:"#income-table",
+    values:[
+      [".lst-account-name",      $("#filter_i_accounts").children(":selected").text()],
+      [".lst-expense-item-name", $("#filter_i_expItemsI").children(":selected").text()]
+    ]
+  });
+}
+
+// 支出
+// （口座）
+$("#filter_o_accounts").change(function(){ filterExpenseTable(); });
+// （費目）
+$("#filter_o_expItemsO").change(function(){ filterExpenseTable(); });
+// （カード払い）
+$("#filter_o_card").change(function(){ filterExpenseTable(); });
+
+function filterExpenseTable() {
+  filterList({
+    listId:"#expense-table",
+    values:[
+      [".lst-account-name",      $("#filter_o_accounts").children(":selected").text()],
+      [".lst-expense-item-name", $("#filter_o_expItemsO").children(":selected").text()],
+      [".lst-credit-card",       $("#filter_o_card").children(":selected").text()]
+    ]
+  });
+}
+
+// 移動
+// （口座）
+$("#filter_m_accounts").change(function(){ filterMoveTable(); });
+// （移動先）
+$("#filter_m_moveTo").change(function(){ filterMoveTable(); });
+
+function filterMoveTable() {
+  filterList({
+    listId:"#move-table",
+    values:[
+      [".lst-account-name", $("#filter_m_accounts").children(":selected").text()],
+      [".lst-move-to-name", $("#filter_m_moveTo").children(":selected").text()]
+    ]
+  });
+}
+
+// フィルタリング処理
+function filterList(params) {
+  console.log(params);
+  // 一旦フィルタクリア
+  $(params.listId + " tr").show();
+
+  // フィルタ
+  $(params.listId + " tr").each(function() {
+    if ($(this).children("th").length > 0) {
+      return true;  // continue
+    }
+
+    var hide = false;
+
+    for (var i = 0; i < params.values.length; i++) {
+      var text = $(this).children("td" + params.values[i][0]).text();
+      var val = params.values[i][1];
+      if (val != "" && text != val) {
+        hide = true;
+        break;
+      }
+    }
+
+    if (hide) {
+      $(this).hide();
+    }
+  });
 }
 </script>
